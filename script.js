@@ -6,12 +6,14 @@ const titanic = document.querySelector('#titanic')
 // Set some styles on the titanic
 // display flex, justifyContent center, alignItems flex-end
 titanic.style.display = 'grid'
-titanic.style.gridTemplateColumns = 'repeat(20, 10px)'
-titanic.style.gridGap = '1px'
+titanic.style.gridTemplateColumns = 'repeat(27, 23px)'
+titanic.style.gridGap = '5px'
 
 // Map over the data and make a new element for each passenger
 const passengers = data.map(p => {
-  return document.createElement('div')
+  const div = document.createElement('div')
+  div.setAttribute('data-passenger', JSON.stringify(p));
+  return div
 })
 
 // Loop over each passenger and append them to the titanic
@@ -20,10 +22,45 @@ passengers.forEach(p => {
 })
 
 // Let's loop over each passenger and set some styles 
-passengers.forEach((p, i) => {
-  p.style.width = '10px'
-  p.style.height = '10px'
-  p.style.backgroundColor = '#000'
+passengers.forEach((div, i) => {
+  const { 
+    fields: { 
+      survived, 
+      sex,
+      embarked
+    } 
+  } = JSON.parse(div.getAttribute('data-passenger'));
+
+  const embarkedColor = () => {
+    switch(embarked) {
+      case "C": 
+        return '#e76f51'
+      case "S": 
+        return '#f4a261'
+      case "Q":
+        return '#e76f51'
+      default:
+        return 'black'
+    }
+  }
+
+  div.style.width = '20px'
+  div.style.height = '20px'
+  div.style.borderRadius = 
+    sex === "male" 
+      ? '50%'
+      : 0;
+  div.style.backgroundColor = 
+    survived === "Yes" 
+      ? '#2a9d8f'
+      : '#264653';
+  div.style.border = 
+    embarked 
+      ? `
+        3px 
+        solid 
+        ${embarkedColor()}` 
+      : ''
 })
 
 // Challenges - 
