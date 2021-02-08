@@ -27,7 +27,9 @@ passengers.forEach((div, i) => {
     fields: { 
       survived, 
       sex,
-      embarked
+      embarked,
+      age,
+      pclass,
     } 
   } = JSON.parse(div.getAttribute('data-passenger'));
 
@@ -46,8 +48,8 @@ passengers.forEach((div, i) => {
 
   div.classList.add('passenger');
 
-  div.style.width = '15px'
-  div.style.height = '15px'
+  div.style.width = age >= 18 ? '15px' : '10px'
+  div.style.height = age >= 18 ? '15px' : '10px'
   div.style.borderRadius = 
     sex === "female" 
       ? '50%'
@@ -57,13 +59,13 @@ passengers.forEach((div, i) => {
       ? 1
       : 0.5;
   div.style.backgroundColor = `${embarkedColor()}`
-  // div.style.border = 
-  //   embarked 
-  //     ? `
-  //       3px 
-  //       solid 
-  //       ${embarkedColor()}` 
-  //     : ''
+  div.style.border = 
+    pclass === 1 
+      ? `
+        3px 
+        solid 
+        grey` 
+      : ''
 })
 
 const passengerDetails = document.querySelector('#passenger-details')
@@ -79,13 +81,16 @@ document.body.addEventListener('mouseover', (e) => {
       } 
     } = JSON.parse(e.target.getAttribute('data-passenger'));
     
-    passengerDetails.style.position = 'block';
+    passengerDetails.style.position = 'fixed';
     passengerDetails.style.left = `${e.pageX + 3}px`;
     passengerDetails.style.top = `${e.pageY + 3}px`;
+    passengerDetails.style.width = '100px';
+    passengerDetails.style.height = '100px';
+    passengerDetails.style.zIndex = '1000';
     passengerDetails.style.backgroundColor = '#fff';
     passengerDetails.style.border = '1px solid #2a9d8f';
     passengerDetails.style.padding = '0.5em';
-
+    passengerDetails.style.color = 'black';
     passengerDetails.style.innerHTML = `
       <strong>${name}</strong>
     `;
