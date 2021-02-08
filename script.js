@@ -6,7 +6,7 @@ const titanic = document.querySelector('#titanic')
 // Set some styles on the titanic
 // display flex, justifyContent center, alignItems flex-end
 titanic.style.display = 'grid'
-titanic.style.gridTemplateColumns = 'repeat(27, 23px)'
+titanic.style.gridTemplateColumns = 'repeat(34, 20px)'
 titanic.style.gridGap = '5px'
 
 // Map over the data and make a new element for each passenger
@@ -44,51 +44,51 @@ passengers.forEach((div, i) => {
     }
   }
 
-  div.style.width = '20px'
-  div.style.height = '20px'
+  div.classList.add('passenger');
+
+  div.style.width = '15px'
+  div.style.height = '15px'
   div.style.borderRadius = 
-    sex === "male" 
+    sex === "female" 
       ? '50%'
       : 0;
-  div.style.backgroundColor = 
+  div.style.opacity = 
     survived === "Yes" 
-      ? '#2a9d8f'
-      : '#264653';
-  div.style.border = 
-    embarked 
-      ? `
-        3px 
-        solid 
-        ${embarkedColor()}` 
-      : ''
+      ? 1
+      : 0.5;
+  div.style.backgroundColor = `${embarkedColor()}`
+  // div.style.border = 
+  //   embarked 
+  //     ? `
+  //       3px 
+  //       solid 
+  //       ${embarkedColor()}` 
+  //     : ''
 })
 
-// Challenges - 
+const passengerDetails = document.querySelector('#passenger-details')
 
-// Make the squares a little bigger 15px by 15px. 
-// You'll need to change both the gridTemplateColumn on the
-// titanic and the width and height of each passenger. 
+document.body.addEventListener('mouseover', (e) => {
+  if (e.target.matches('.passenger')) {
 
+    const { 
+      fields: { 
+        name, 
+        age,
+        fare
+      } 
+    } = JSON.parse(e.target.getAttribute('data-passenger'));
+    
+    passengerDetails.style.position = 'block';
+    passengerDetails.style.left = `${e.pageX + 3}px`;
+    passengerDetails.style.top = `${e.pageY + 3}px`;
+    passengerDetails.style.backgroundColor = '#fff';
+    passengerDetails.style.border = '1px solid #2a9d8f';
+    passengerDetails.style.padding = '0.5em';
 
+    passengerDetails.style.innerHTML = `
+      <strong>${name}</strong>
+    `;
 
-// Change the number of columns on the titanic to 34
-
-
-// Display each passenger as a circle if they are female. 
-// Do this by setting the borderRadius of each passenger. 
-// Match the passenger in passengers to the object data 
-// in the data array by the index. 
-
-
-
-// Display each passengers who did not survive as 
-// opacity 0.5. 
-
-
-
-// Set the backgroundColor of each passenger by their 
-// embarked value. There are three possible values: 
-// 'S', 'C', and 'Q'
-
-
-
+  }
+})
